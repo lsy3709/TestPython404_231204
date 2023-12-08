@@ -115,10 +115,15 @@ while True:
         # for book in result_list:
         #     info_list = getBookInfo(book)
         print(f"result_list : {result_list}")
+
+        #4개씩 끊기 작업, 
+      
         # 쓰기 잠시 대기. -> 4개씩 끊어서 쓰기 작업. 
-        # with open(csvName, 'a', newline='',encoding="UTF-8") as csvFp:
-        #     csvWriter = csv.writer(csvFp)
-        #     csvWriter.writerow(result_list)
+        chunked_data = [result_list[i:i+4] for i in range(0,len(result_list),4)]
+        for result in chunked_data:
+            with open(csvName, 'a', newline='',encoding="UTF-8") as csvFp:
+                csvWriter = csv.writer(csvFp)
+                csvWriter.writerow(result)
 
     except:
         break
