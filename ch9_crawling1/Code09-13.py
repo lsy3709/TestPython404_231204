@@ -36,7 +36,7 @@ while True:
 
     # 헤더로 사용이 될 예정. 
     weather_list = [yymmdd, hhmmss, temper, humi, rain, wind]
-    with open(csvName, 'a', newline='') as csvFp:
+    with open(csvName, 'a', newline='',encoding="UTF-8") as csvFp:
         csvWriter = csv.writer(csvFp)
         csvWriter.writerow(weather_list)
         print(weather_list)
