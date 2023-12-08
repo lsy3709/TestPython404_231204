@@ -32,9 +32,30 @@ def getBookInfoTxt(book_tag):
     # 책 제목
     bookName = book_tag.find("a").text
     
+
     
  
     return [bookName,authorName, price3]
+
+# 수정, 각각 함수를 하나로 변경. 
+def getBookInfoTotal(book_tag, book_tag2):
+    # 저자
+    names = book_tag.find("div", {"class": "b-author"})
+    authorName = names.text
+    # 가격
+    price = book_tag.find("div", {"class": "b-price"})
+    price2 = price.find("strong")
+    price3 = price2.text
+    # 책 제목
+    bookName = book_tag.find("a").text
+    
+    # 책 이미지 
+    img_tag = book_tag2.find("img")
+    # print(f"img_tag 결과: {img_tag}")
+    img_tag_src = img_tag['src']
+    
+ 
+    return [bookName,authorName, price3,img_tag_src]
 
 
 # 전역 변수부
@@ -65,8 +86,12 @@ all_books_Txt = tag.findAll('div', {'class': 'b-text'})
 # 여기에 리스트에 해당 책의 1)a 링크 2) 이미지 주소, 
 # 이미지 주소만 가져오기. 
 for book in all_books_Img:
-    print(getBookInfoImg(book))
+    print(getBookInfoTotal(book))
 
 # 저자, 가격 가져오기. 
+for book in all_books_Txt:
+    print(getBookInfoTxt(book))
+
+# total 가져오기. 
 for book in all_books_Txt:
     print(getBookInfoTxt(book))
