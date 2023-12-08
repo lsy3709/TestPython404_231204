@@ -22,14 +22,19 @@ def getBookInfoImg(book_tag):
     # 하위에 이미지 하나만 가져오는 테스트 
 # 저자, 가격 가져오기. 
 def getBookInfoTxt(book_tag):
+    # 저자
     names = book_tag.find("div", {"class": "b-author"})
     authorName = names.text
+    # 가격
     price = book_tag.find("div", {"class": "b-price"})
     price2 = price.find("strong")
     price3 = price2.text
+    # 책 제목
+    bookName = book_tag.find("a").text
+    
     
  
-    return [authorName, price3]
+    return [bookName,authorName, price3]
 
 
 # 전역 변수부
