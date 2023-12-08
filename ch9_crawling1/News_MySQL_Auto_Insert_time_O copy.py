@@ -7,6 +7,16 @@ from tkinter import *
 from tkinter import messagebox
 import re
 # 주의사항, 문자열 안에 특수문자 부분 체크 잘하기.
+# create table newsTable (
+# id int not null auto_increment,
+# title varchar(200),
+# publisher varchar(200),
+# newsDate varchar(10),
+# newsTime varchar(10),
+# newsDetail varchar(200),
+# newsImgUrl varchar(200),
+# primary key(id)
+# );
 
 # 현재 네이트 기사는 특정 시간 예 1분마다 새로운 기사가 나옴.
 
@@ -50,7 +60,7 @@ def insertData(subject, press, pDate, pTime, link, imgLinkUrl):
     data0, data1, data2, data3, data4, data5, data6 = "", "", "", "", "", "", ""
     sql = ""
     con = pymysql.connect(host='127.0.0.1', user='root',
-                          password='1234', database='nateNewsLive', charset='utf8')
+                          password='123456', database='nateNewsLive', charset='utf8')
     cur = con.cursor()
 #    title` VARCHAR(200) NULL,
 #   `publisher` VARCHAR(45) NULL,
@@ -111,7 +121,7 @@ page = 1
 count = 1
 nateUrl = "https://news.nate.com/recent?cate=its&mid=n0105&type=c&date=20230829&page=1"
 while True:
-    # if (count != 21):
+  if (count != 201):
     try:
         newsUrl = nateUrl + str(page)
         newsUrl = nateUrl
@@ -122,7 +132,7 @@ while True:
         tag_list = bsObject.findAll('div', {'class': 'mlt01'})
         print('###### 실시간 뉴스 속보 #######')
         for tag in tag_list:
-            # if (count != 21):
+          if (count != 201):
             # strong -> h2 변경 230629 (확인 날짜)
             subject = tag.find('h2', {'class': 'tit'}).text
             subject = clean_text(subject)
@@ -163,9 +173,18 @@ while True:
             # print('(' , page, ')', subject)
             # print('\t https:'+link, press, pDate, pTime)
             # print('\t imgLink : '+ imgLinkUrl)
-        time.sleep(10)
+          else:
+            break
+        
+        time.sleep(1)
+        print(f"count : {count}, page : {page}")
+        # print(f"완료!")
+        
     except:
         break
+  else:
+     print(f"완료!")
+     break
     # else:
     #     break
     # 특정 시간마다 동작 여부
