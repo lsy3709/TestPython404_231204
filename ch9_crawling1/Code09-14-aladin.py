@@ -11,21 +11,25 @@ import urllib.request
     # 하위에 이미지 하나만 가져오는 테스트 
 def getBookInfoImg(book_tag):
     img_tag = book_tag.find("img")
-    print(f"img_tag 결과: {img_tag}")
+    # print(f"img_tag 결과: {img_tag}")
     img_tag_src = img_tag['src']
     
     return [img_tag_src]
 
-
+# <ul class="b-booklist">
+    #   <li>
+	#     <div class="b-text">
+    # 하위에 이미지 하나만 가져오는 테스트 
+# 저자, 가격 가져오기. 
 def getBookInfoTxt(book_tag):
-    names = book_tag.find("div", {"class": "goods_name"})
-    bookName = names.find("a").text
-    auths = book_tag.find("span", {"class": "goods_auth"})
-    bookAuth = auths.find("a").text
-    bookPub = book_tag.find("span", {"class": "goods_pub"}).text
-    bookDate = book_tag.find("span", {"class": "goods_date"}).text
-    bookPrice = book_tag.find("em", {"class": "yes_b"}).text
-    return [bookName, bookAuth, bookPub, bookDate, bookPrice]
+    names = book_tag.find("div", {"class": "b-author"})
+    authorName = names.text
+    price = book_tag.find("div", {"class": "b-price"})
+    price2 = price.find("strong")
+    price3 = price2.text
+    
+ 
+    return [authorName, price3]
 
 
 # 전역 변수부
@@ -57,3 +61,7 @@ all_books_Txt = tag.findAll('div', {'class': 'b-text'})
 # 이미지 주소만 가져오기. 
 for book in all_books_Img:
     print(getBookInfoImg(book))
+
+# 저자, 가격 가져오기. 
+for book in all_books_Txt:
+    print(getBookInfoTxt(book))
