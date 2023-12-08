@@ -21,14 +21,18 @@ def getBookInfoImg(book_tag):
     # 하위에 이미지 하나만 가져오는 테스트 
 # 저자, 가격 가져오기. 
 def getBookInfoTxt(book_tag):
+    # 저자
     names = book_tag.find("div", {"class": "b-author"})
     authorName = names.text
+    # 가격
     price = book_tag.find("div", {"class": "b-price"})
     price2 = price.find("strong")
     price3 = price2.text
-    
- 
-    return [authorName, price3]
+    # 책 제목
+    bookName = book_tag.find("a").text
+       
+    return [bookName,authorName, price3]
+
 
 
 # 전역 변수부
@@ -41,28 +45,52 @@ def getBookInfoTxt(book_tag):
 url = "https://www.aladin.co.kr/shop/wbrowse.aspx?CID=351"
 
 
+# 전체 리스트 
+result_list = []
+
 # 메인 코드부
 csvName = 'C:/TestPython/ch9_crawling1/aladinBook_231208.csv'
 with open(csvName, 'w', newline='',encoding="UTF-8") as csvFp:
     csvWriter = csv.writer(csvFp)
-    csvWriter.writerow(['책이름', '저자', '출판사', '출간일', '가격'])
+    csvWriter.writerow(['책이름', '저자', '가격', '책커버이미지'])
 
 while True:
     try:
-        bookUrl = url + str(pageNumber)
-        pageNumber += 1
-
-        htmlObject = urllib.request.urlopen(bookUrl)
+        # 초기세팅
+        htmlObject = urllib.request.urlopen(url)
         webPage = htmlObject.read()
         bsObject = bs4.BeautifulSoup(webPage, 'html.parser')
-        tag = bsObject.find('ul', {'class': 'clearfix'})
-        all_books = tag.findAll('div', {'class': 'goods_info'})
 
-        for book in all_books:
-            info_list = getBookInfo(book)
-            with open(csvName, 'a', newline='') as csvFp:
-                csvWriter = csv.writer(csvFp)
-                csvWriter.writerow(info_list)
+
+        tag = bsObject.find('ul', {'class': 'b-booklist'})
+        # 구조 일반 이미지 : <div class="b-cover">,
+        all_books_Img = tag.findAll('div', {'class': 'b-cover'})
+
+        # 일반 텍스트  : <div class="b-text">
+        all_books_Txt = tag.findAll('div', {'class': 'b-text'})
+
+        # 이미지 주소만 가져오기. 
+        for book in all_books_Img:
+            bookImg = getBookInfoImg(book)
+            bookImgTxt = bookImg[0]
+            result_list.append(bookImgTxt)
+
+        # 저자, 가격 가져오기. 
+        for book in all_books_Txt:
+            bookTxt = getBookInfoTxt(book)
+            bookName = bookTxt[0]
+            result_list.append(bookName)
+            bookAuthor = bookTxt[1]
+            result_list.append(bookAuthor)
+            bookPrice = bookTxt[2]
+            result_list.append(bookPrice)
+
+        # for book in result_list:
+        #     info_list = getBookInfo(book)
+        print(f"result_list : {result_list}")
+        with open(csvName, 'a', newline='',encoding="UTF-8") as csvFp:
+            csvWriter = csv.writer(csvFp)
+            csvWriter.writerow(result_list)
 
     except:
         break
