@@ -12,7 +12,7 @@ webPage = htmlObject.read()
 # 가독성 있게 다 변환을 한 상태.
 bsObject = bs4.BeautifulSoup(webPage, 'html.parser')
 
-# div-> id 속성 값:NateBi , 네이트 로고
+# div-> id 속성 값:NateBi , 네이트 로고, NateBi
 tag = bsObject.find('div', {'id': 'NateBi'})
 print(tag, '\n')
 

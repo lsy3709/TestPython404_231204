@@ -1,10 +1,12 @@
 import bs4
 import urllib.request
 
+# 초기세팅, html 문서 그대로 읽으면 가독성 안좋다. -> bs 가독성 있게 파싱
 nateUrl = "https://news.nate.com"
 htmlObject = urllib.request.urlopen(nateUrl)
 webPage = htmlObject.read()
 bsObject = bs4.BeautifulSoup(webPage, 'html.parser')
+# 가독성 작업. 
 
 # div : 속성:class, 값: snbArea ->
 tag = bsObject.find('div', {'class': 'snbArea'})
