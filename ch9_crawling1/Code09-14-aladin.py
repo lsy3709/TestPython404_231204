@@ -32,12 +32,9 @@ def getBookInfoTxt(book_tag):
     # 책 제목
     bookName = book_tag.find("a").text
     
-
-    
- 
     return [bookName,authorName, price3]
 
-# 수정, 각각 함수를 하나로 변경. 
+# 수정, 각각 함수를 하나로 변경. -> 보류
 def getBookInfoTotal(book_tag, book_tag2):
     # 저자
     names = book_tag.find("div", {"class": "b-author"})
@@ -86,12 +83,12 @@ all_books_Txt = tag.findAll('div', {'class': 'b-text'})
 # 여기에 리스트에 해당 책의 1)a 링크 2) 이미지 주소, 
 # 이미지 주소만 가져오기. 
 for book in all_books_Img:
-    print(getBookInfoTotal(book))
+    print(getBookInfoImg(book))
 
 # 저자, 가격 가져오기. 
 for book in all_books_Txt:
     print(getBookInfoTxt(book))
 
-# total 가져오기. 
-for book in all_books_Txt:
-    print(getBookInfoTxt(book))
+# total 가져오기. 인자값을 2개로 설정을 했는데, 만들다가 잠시 보류.
+# for book in all_books_Txt:
+#     print(getBookInfoTotal(book))
