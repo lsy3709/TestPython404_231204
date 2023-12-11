@@ -42,6 +42,7 @@ def getBookInfoTxt(book_tag):
 # 전역 변수부
 # 해당 사이트의 하위 주소 부분 반드시 조사.
 # https://www.yes24.com/24/Category/Display/001001003022?ParamSortTp=05&PageNumber=2
+# md 추천 신간 -> 데이터 16개 정도 예제
 url = "https://www.aladin.co.kr/shop/wbrowse.aspx?CID=351"
 
 
@@ -55,7 +56,9 @@ txt_list = []
 result_list = []
 
 # 메인 코드부
-csvName = 'C:/TestPython/ch9_crawling1/aladinBook_231208.csv'
+# 수집 된 데이터를 -> csv 파일로 작성하는 초기 세팅. 
+csvName = 'C:/TestPython/ch9_crawling1/aladinBook_231211.csv'
+# with 구문은 , 파일의 입출력에서, 자동으로 close 할 때 많이 사용이 되는 형식이다. 
 with open(csvName, 'w', newline='',encoding="UTF-8") as csvFp:
     csvWriter = csv.writer(csvFp)
     csvWriter.writerow(['책이름', '저자', '가격', '책커버이미지'])
@@ -120,9 +123,11 @@ while True:
       
         # 쓰기 잠시 대기. -> 4개씩 끊어서 쓰기 작업. 
         chunked_data = [result_list[i:i+4] for i in range(0,len(result_list),4)]
+        # chunked_data = [[책제목,저자,가격,책커버],[책제목2,저자2,가격2,책커버2],...]
         for result in chunked_data:
             with open(csvName, 'a', newline='',encoding="UTF-8") as csvFp:
                 csvWriter = csv.writer(csvFp)
+                # 한줄씩, csv 파일에 쓰기 작업한다. 
                 csvWriter.writerow(result)
 
     except:

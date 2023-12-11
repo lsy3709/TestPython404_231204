@@ -60,7 +60,7 @@ def insertData(subject, press, pDate, pTime, link, imgLinkUrl):
     data0, data1, data2, data3, data4, data5, data6 = "", "", "", "", "", "", ""
     sql = ""
     con = pymysql.connect(host='127.0.0.1', user='root',
-                          password='123456', database='nateNewsLive', charset='utf8')
+                          password='123456', database='nateNewsDB', charset='utf8')
     cur = con.cursor()
 #    title` VARCHAR(200) NULL,
 #   `publisher` VARCHAR(45) NULL,
@@ -119,7 +119,7 @@ def insertData(subject, press, pDate, pTime, link, imgLinkUrl):
 ##
 page = 1
 count = 1
-nateUrl = "https://news.nate.com/recent?cate=its&mid=n0105&type=c&date=20230829&page=1"
+nateUrl = "https://news.nate.com/recent?cate=its&mid=n0105&type=c&date=20231210&page=1"
 while True:
   if (count != 201):
     try:
@@ -133,7 +133,7 @@ while True:
         print('###### 실시간 뉴스 속보 #######')
         for tag in tag_list:
           if (count != 201):
-            # strong -> h2 변경 230629 (확인 날짜)
+            # strong -> h2 변경 231210 (확인 날짜)
             subject = tag.find('h2', {'class': 'tit'}).text
             subject = clean_text(subject)
             link = tag.find('a', {'class': 'lt1'})['href']
